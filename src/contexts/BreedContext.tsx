@@ -1,9 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { db } from "../config/firebase";
-import { useAuth } from "./AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGetUserInfo } from "../hooks";
 
 interface IBreedInfo {
     breedId: string,
@@ -26,7 +26,7 @@ export const BreedContext = createContext<IBreedContextProps>({
 });
 
 export const BreedProvider = ({ children }: { children: ReactNode }) => {
-    const { user } = useAuth();
+    const { user } = useGetUserInfo();
     const [favourite, setFavourite] = useState<IBreedInfo[]>([])
 
 

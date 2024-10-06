@@ -3,7 +3,8 @@ import { useCookies } from 'react-cookie'
 
 const useGetUserInfo = () => {
     const [cookies, setCookies] = useCookies(["userInfo"]);
-    return cookies.userInfo
+    const user = cookies.userInfo;
+    return {user};
 }
 
 export default useGetUserInfo
