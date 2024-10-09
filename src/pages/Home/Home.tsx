@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react'
 import { AddDogBreed, DefaultHeader, FavouriteDogDisplay, RandomImageDisplay } from '../../components'
-import axios from 'axios';
-import { useBreed } from '../../contexts/BreedContext';
 
 const Home = () => {
 
-    const { favourite } = useBreed();
 
     return (
         <>

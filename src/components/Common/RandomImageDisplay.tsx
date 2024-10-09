@@ -1,13 +1,65 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 import { useBreed } from '../../contexts/BreedContext';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { db } from '../../config/firebase';
+import { useGetUserInfo } from '../../hooks';
 
 
 const RandomImageDisplay = () => {
 
     const [image, setImage] = useState<string | null>(null);
     const [randomBreed, setRandomBreed] = useState<string | null>(null);
+    const [isImageLiked, setIsImageLiked] = useState(false);
     const { favourite } = useBreed();
+    const { user } = useGetUserInfo();
+
+    const handleLike = async (e: SyntheticEvent) => {
+        e.preventDefault();
+        try {
+            const document = {
+                imageUrl: image,
+                createdAt: new Date(),
+                userId: user.userId,
+
+            }
+            const collectionRef = collection(db, "favouriteImages");
+
+            await addDoc(collectionRef, document).then(() => {
+                setIsImageLiked(true);
+                toast.success("Image Liked");
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleUnlike = async (event: SyntheticEvent) => {
+        event.preventDefault();
+        try {
+            const collectionRef = collection(db, "favouriteImages");
+            const q = query(
+                collectionRef,
+                where("userId", "==", user?.userId,),
+                where("imageUrl", "==", image));
+            const snapshot = await getDocs(q);
+            if (!snapshot.empty) {
+                snapshot.forEach(async (document) => {
+                    await deleteDoc(doc(db, "favouriteImages", document.id)).then(
+                        () => {
+                            setIsImageLiked(false);
+                            toast.success("Image Unlike")
+                        }
+                    );
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 
     const getRandomBreeds = async (breeds: string[]) => {
         if (breeds.length === 0) {
@@ -37,16 +89,55 @@ const RandomImageDisplay = () => {
         }
     }
 
+    const checkImageLike = async () => {
+        try {
+            const collectionRef = collection(db, "favouriteImages");
+            const q = query(
+                collectionRef,
+                where("userId", "==", user?.userId,),
+                where("imageUrl", "==", image));
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) setIsImageLiked(false);
+            else {
+                setIsImageLiked(true);
+            }
+        } catch (error) {
+            console.log(error);
+            setIsImageLiked(false);
+        }
+    }
     useEffect(() => {
         getRandomBreeds(favourite.map(item => item.breedName));
         fetchRandomImage();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (image) {
+            checkImageLike();
+        }
+    }, [image])
     return (
         <>
             {
                 image
-                && <img src={image}
-                    className='mt-4 h-72' />
+                && <div className='flex justify-center items-center gap-4'>
+                    <img src={image}
+                        className='mt-4 h-72' />
+
+                    {
+                        isImageLiked
+
+                            ? <button className='py-2 px-6 font-semibold font-futura text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-100 rounded-lg'
+                                onClick={handleUnlike}>
+                                Unlike
+                            </button>
+
+                            : <button className='py-2 px-6 font-semibold font-futura text-yellow-700 border-2 border-yellow-700 hover:bg-yellow-100 rounded-lg'
+                                onClick={handleLike}>
+                                Like
+                            </button>
+                    }
+                </div>
             }
 
             {

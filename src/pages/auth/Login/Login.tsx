@@ -3,7 +3,7 @@ import { EyeIcon, EyeOffIcon } from '../../../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../config/firebase';
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCookies } from 'react-cookie';
 
@@ -21,7 +21,7 @@ const Login = () => {
     password: null,
   }
   const [showPassword, setShowPassword] = useState(false);
-  const [cookies, setCookies] = useCookies(["userInfo"]);
+  const [_, setCookies] = useCookies(["userInfo"]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -1,7 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { db } from "../config/firebase";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGetUserInfo } from "../hooks";
 
@@ -34,7 +34,7 @@ export const BreedProvider = ({ children }: { children: ReactNode }) => {
         try {
             const newBreedList: IBreedInfo[] = []
             const collectionRef = collection(db, "breeds");
-            const q = query(collectionRef, where("userEmail", "==", user?.email));
+            const q = query(collectionRef, where("userId", "==", user?.userId));
             const snapshot = await getDocs(q);
             snapshot.forEach((doc) => {
                 const breedData: IBreedInfo = {
@@ -56,7 +56,7 @@ export const BreedProvider = ({ children }: { children: ReactNode }) => {
             const document = {
                 breedName: breedName,
                 createdAt: new Date(),
-                userEmail: user?.email,
+                userId: user.userId,
             }
 
             console.log(document);

@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 import { AddDogBreed, DefaultHeader, FavouriteDogDisplay } from '../../../components'
-import { UNSAFE_FetchersContext } from 'react-router-dom';
 import axios from 'axios';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../../config/firebase';
 import { useBreed } from '../../../contexts/BreedContext';
+import { useGetUserInfo } from '../../../hooks';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../../config/firebase';
+import { toast } from 'react-toastify';
 
 const ImageDisplay = () => {
 
     const [image, setImage] = useState<string | null>(null);
+    const { user } = useGetUserInfo();
     const { getFavouriteBreeds } = useBreed();
 
 
@@ -22,6 +24,8 @@ const ImageDisplay = () => {
             console.log(error);
         }
     }
+
+
 
     useEffect(() => {
         fetchRandomImage();
@@ -45,13 +49,15 @@ const ImageDisplay = () => {
                     </AddDogBreed>
                     your favourite breeds
                 </p>
-
+    
 
                 {
                     image
-                    && <img src={image}
-                        className='mt-4 h-72' />
+                    &&
+                        <img src={image}
+                            className='mt-4 h-72' />
                 }
+
 
                 <button onClick={fetchRandomImage}
                     className='py-2 px-6 border rounded-full border-yellow-700 text-yellow-700 font-futura hover:bg-yellow-100 mx-auto mt-4'>
