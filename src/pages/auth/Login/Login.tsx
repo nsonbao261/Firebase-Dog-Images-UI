@@ -9,6 +9,7 @@ import { useCookies } from 'react-cookie';
 
 
 
+
 const Login = () => {
 
   interface IError {
@@ -100,7 +101,7 @@ const Login = () => {
             Email
           </label>
 
-          <input type="text" placeholder='Enter your email'
+          <input type="text" placeholder='Enter your email' id="email" name="email"
             className='shadow border rounded w-full py-2 pl-3 pr-8 focus:outline-none font-futura'
             onChange={(e) => setEmail(e.target.value)} />
 
@@ -113,18 +114,20 @@ const Login = () => {
         </div>
 
         <div className='w-full'>
-          <label htmlFor="email"
+          <label htmlFor="password"
             className='text-sm font-futura relative left-2'>
             Password
           </label>
 
           <div className='flex items-center justify-center relative'>
             <input type={showPassword ? "text" : "password"} placeholder='Enter your password'
+              id="password" name="password"
               className='shadow border rounded w-full py-2 pl-3 pr-8 focus:outline-none font-futura'
               onChange={(e) => setPassword(e.target.value)} />
 
             <i className='absolute right-2 cursor-pointer'
-              onClick={() => setShowPassword(!showPassword)}>
+              onClick={() => setShowPassword(!showPassword)}
+              data-testid="toggle-password-icon">
               {
                 showPassword ? <EyeIcon /> : <EyeOffIcon />
               }
