@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { SyntheticEvent, useEffect, useState } from 'react'
 import { useBreed } from '../../contexts/BreedContext';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { db } from '../../config/firebase';
 import { useGetUserInfo } from '../../hooks';

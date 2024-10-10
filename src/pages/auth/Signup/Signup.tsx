@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import { EyeIcon, EyeOffIcon } from '../../../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserWithEmailAndPassword } from 'firebase/auth';

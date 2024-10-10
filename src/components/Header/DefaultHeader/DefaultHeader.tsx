@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const DefaultHeader = () => {
-    const [cookies, _, removeCookies] = useCookies(["userInfo"]);
+    const [_, __, removeCookies] = useCookies(["userInfo"]);
 
 
     const navigate = useNavigate();

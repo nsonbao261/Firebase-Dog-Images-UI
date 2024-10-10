@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Home, Login, Signup } from "./pages"
-import { AuthProvider } from "./contexts/AuthContext"
 import { ProtectedRoute } from "./routes"
 import { BreedProvider } from "./contexts/BreedContext"
 import { ToastContainer } from "react-toastify"

@@ -1,16 +1,11 @@
-import { SyntheticEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AddDogBreed, DefaultHeader, FavouriteDogDisplay } from '../../../components'
 import axios from 'axios';
 import { useBreed } from '../../../contexts/BreedContext';
-import { useGetUserInfo } from '../../../hooks';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../../../config/firebase';
-import { toast } from 'react-toastify';
 
 const ImageDisplay = () => {
 
     const [image, setImage] = useState<string | null>(null);
-    const { user } = useGetUserInfo();
     const { getFavouriteBreeds } = useBreed();
 
 
@@ -49,13 +44,13 @@ const ImageDisplay = () => {
                     </AddDogBreed>
                     your favourite breeds
                 </p>
-    
+
 
                 {
                     image
                     &&
-                        <img src={image}
-                            className='mt-4 h-72' />
+                    <img src={image}
+                        className='mt-4 h-72' />
                 }
 
 
